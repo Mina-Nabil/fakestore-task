@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Smoke;
 
 use PHPUnit\Framework\TestCase;
 
