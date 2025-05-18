@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import TheWelcome from '../components/TheWelcome.vue'
+import ProductsList from '../components/ProductsList.vue'
+import { useTitleStore } from '@/stores/titleStore'
+
+const titleStore = useTitleStore()
+
+titleStore.setTitle("Our Products")
 </script>
 
 <template>
-  <main>
-    <TheWelcome />
-  </main>
+  <ProductsList />
 </template>
