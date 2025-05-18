@@ -31,6 +31,7 @@ class UsersService
     if (!Hash::check($password, $user->password)) {
       throw new UserManagementException('Invalid credentials', self::INVALID_PASSWORD_ERROR_CODE);
     }
+    
     return $user->createToken('auth_token')->plainTextToken;
   }
 
