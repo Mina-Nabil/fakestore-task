@@ -3,6 +3,7 @@ import { RouterLink, RouterView } from 'vue-router'
 import { useTitleStore } from '@/stores/titleStore'
 import { useCartStore } from '@/stores/cartStore'
 import { onMounted } from 'vue'
+import { formatFloatNumber } from '@/helpers/misc'
 
 const titleStore = useTitleStore()
 const cartStore = useCartStore()
@@ -42,7 +43,7 @@ onMounted(() => {
                         {{ item.quantity > 1 ? `${item.quantity} x ` : '' }}{{ item.product.title }}
                     </h3>
                     <span class="minicart-content-price"
-                      >{{ item.quantity }} x {{ item.product.price }} EUR</span
+                      >{{ item.quantity }} x {{ formatFloatNumber(item.product.price) }} EUR</span
                     >
                     <span class="minicart-content-remove btn-remove"
                       ><i class="fa fa-times"></i
@@ -53,7 +54,7 @@ onMounted(() => {
 
               <!-- Subtotal -->
               <div class="minicart-content-total">
-                <h3>Subtotal: {{ cartStore.getTotalPrice() }} EUR</h3>
+                <h3>Subtotal: {{ cartStore.getTotalPriceFormatted() }} EUR</h3>
               </div>
 
               <!-- Checkout -->

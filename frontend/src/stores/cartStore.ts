@@ -1,6 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import type { Product } from './productsStore'
+import { formatFloatNumber } from '@/helpers/misc'
 
 
 export interface CartItem {
@@ -43,7 +44,7 @@ export const useCartStore = defineStore('cartStore', () => {
   }
 
   const getTotalPrice = () => {
-    return parseFloat(cart.value.reduce((total, item) => total + item.product.price * item.quantity, 0).toFixed(2))
+    return cart.value.reduce((total, item) => total + item.product.price * item.quantity, 0)
   }
 
   const getTotalQuantity = () => {
@@ -54,5 +55,9 @@ export const useCartStore = defineStore('cartStore', () => {
     localStorage.setItem('store-cart', JSON.stringify(cart.value))
   }
 
-  return { cart, loadCart, saveCart, addToCart, removeFromCart, clearCart, getTotalPrice, getTotalQuantity }
+  const getTotalPriceFormatted = () => {
+    return formatFloatNumber(getTotalPrice())
+  }
+
+  return { cart, loadCart, saveCart, addToCart, removeFromCart, clearCart, getTotalPrice, getTotalQuantity, getTotalPriceFormatted }
 })

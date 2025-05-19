@@ -3,6 +3,7 @@ import type { Product } from '@/stores/productsStore'
 import type { PropType } from 'vue'
 import { useCartStore } from '@/stores/cartStore'
 import { ref } from 'vue'
+import { formatFloatNumber } from '@/helpers/misc'
 
 const props = defineProps({
   product: { type: Object as PropType<Product>, required: true },
@@ -40,7 +41,7 @@ const addToCart = () => {
 
       <!-- Price -->
       <div class="ws-item-price">
-        <ins>{{ product.price }} EUR</ins>
+        <ins>{{ formatFloatNumber(product.price) }} EUR</ins>
       </div>
 
       <!-- Add to Cart Button -->

@@ -1,9 +1,13 @@
 <script setup lang="ts">
+import { formatFloatNumber } from '@/helpers/misc'
 import { useCartStore } from '@/stores/cartStore'
 import { watch } from 'vue'
 
 const cartStore = useCartStore()
 watch(cartStore.cart, (newCart) => {
+  newCart.forEach((item) => {
+    item.quantity = Math.round(item.quantity)
+  })
   cartStore.saveCart()
 })
 </script>
@@ -37,13 +41,13 @@ watch(cartStore.cart, (newCart) => {
                     <h3>{{ item.product.title }}</h3>
                   </td>
                   <td class="cart-item-cell cart-item-price">
-                    <span class="amount">{{ item.product.price }}</span>
+                    <span class="amount">{{ formatFloatNumber(item.product.price) }}</span>
                   </td>
                   <td class="cart-item-cell cart-item-quantity">
-                    <input type="number" v-model.number="item.quantity" />
+                    <input type="number" v-model.number="item.quantity" step="1" min="0" />
                   </td>
                   <td class="cart-item-cell cart-item-subtotal">
-                    <span class="amount">{{ item.product.price * item.quantity }}</span>
+                    <span class="amount">{{ formatFloatNumber(item.product.price * item.quantity) }} EUR</span>
                   </td>
                   <td
                     class="cart-item-cell cart-item-remove"
@@ -66,20 +70,20 @@ watch(cartStore.cart, (newCart) => {
                 <tr class="cart-subtotal">
                   <th>Subtotal</th>
                   <td>
-                    <span class="amount">{{ cartStore.getTotalPrice() }} EUR</span>
+                    <span class="amount">{{ cartStore.getTotalPriceFormatted() }} EUR</span>
                   </td>
                 </tr>
                 <tr class="cart-subtotal">
                   <th>Delivery</th>
                   <td>
-                    <span class="amount">50.00 EUR</span>
+                    <span class="amount">50 EUR</span>
                   </td>
                 </tr>
                 <tr class="order-total">
                   <th>Total</th>
                   <td>
                     <strong
-                      ><span class="amount">{{ cartStore.getTotalPrice() + 50 }} EUR</span></strong
+                      ><span class="amount">{{ formatFloatNumber(cartStore.getTotalPrice() + 50) }} EUR</span></strong
                     >
                   </td>
                 </tr>
