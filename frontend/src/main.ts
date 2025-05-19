@@ -1,6 +1,6 @@
-import './assets/animate.min.css'
-import './assets/bootstrap.min.css'
-import './assets/main.css'
+import './assets/css/animate.min.css'
+import './assets/css/bootstrap.min.css'
+import './assets/css/main.css'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'

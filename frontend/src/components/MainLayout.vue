@@ -6,13 +6,6 @@ const titleStore = useTitleStore()
 </script>
 
 <template>
-  <!--[if lt IE 8]>
-    <p class="browserupgrade">
-      You are using an <strong>outdated</strong> browser. Please <a
-      href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.
-    </p>
-  <![endif]-->
-
   <!-- Top Bar Start -->
   <div class="ws-topbar">
     <div class="pull-left">
@@ -76,9 +69,7 @@ const titleStore = useTitleStore()
 
         <!-- Logo -->
         <div class="ws-logo ws-center">
-          <a href="/">
-            <img alt="Proxify Store" class="img-responsive" />
-          </a>
+          <img alt="Proxify Store" class="main-logo img-responsive" src="@/assets/images/logo.png" />
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -92,13 +83,14 @@ const titleStore = useTitleStore()
         </div>
       </div>
     </nav>
+    <!-- Navbar End -->
   </header>
 
   <div>
     <div
       class="ws-parallax-header parallax-window"
       data-parallax="scroll"
-      data-image-src="{{ $site_info->landing_image }}"
+      data-image-src="https://picsum.photos/200/300"
     >
       <div class="ws-overlay">
         <div class="ws-parallax-caption">
@@ -120,9 +112,9 @@ const titleStore = useTitleStore()
   <div class="ws-footer-bar">
     <div class="container">
       <!-- Copyright -->
-      <div class="pull-left">
-        <p>Handcrafted with love &copy; 2024 All rights reserved.</p>
-      </div>
+
+        <p>Handcrafted with love &copy; 2025 All rights reserved.</p>
+
 
       <!-- Payments -->
     </div>
