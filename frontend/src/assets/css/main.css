@@ -863,7 +863,7 @@ ul.ws-shop-menu li{
 	border: 2px solid #CCB48E;
 	background-color: #CCB48E;
 }
-.ws-shop-checkout .btn{
+.ws-shop-secondary .btn{
 	padding: 9px 20px;
 	width: 150px;
 	font-size: 12px;	
@@ -871,7 +871,7 @@ ul.ws-shop-menu li{
 	background-color: transparent;	
 	color: #C2A476;
 }
-.ws-shop-checkout .btn:hover{
+.ws-shop-secondary .btn:hover{
 	border: 2px solid #C2A476;
 	background-color: #C2A476;	
 	color: #fff;
@@ -886,7 +886,7 @@ ul.minicart-content-items img{
 .minicart-content-details{
 	padding-top: 10px;
 }
-.minicart-content-details a{
+.minicart-content-details h3{
 	color: #C2A476;
 	font-size: 14px;	
 	letter-spacing: 1px;
