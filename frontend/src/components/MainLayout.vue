@@ -1,8 +1,15 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import { useTitleStore } from '@/stores/titleStore'
+import { useCartStore } from '@/stores/cartStore'
+import { onMounted } from 'vue'
 
 const titleStore = useTitleStore()
+const cartStore = useCartStore()
+
+onMounted(() => {
+  cartStore.loadCart()
+})
 </script>
 
 <template>
@@ -17,26 +24,37 @@ const titleStore = useTitleStore()
       <ul class="ws-shop-menu">
         <!-- Cart -->
         <li class="ws-shop-cart">
-          <a href="/cart" class="btn btn-sm cart-count">Cart (2)</a>
+          <a href="/cart" class="btn btn-sm cart-count">Cart ({{ cartStore.getTotalQuantity() }})</a>
 
           <!-- Cart Popover -->
           <div class="ws-shop-minicart">
             <div class="minicart-content">
               <!-- Added Items -->
-              <ul class="minicart-content-items clearfix"></ul>
+              <ul class="minicart-content-items clearfix">
+                <li v-for="item in cartStore.cart" class="media"  :key="item.product.id">
+                    <div class="media-left">
+                        <a href="#">
+                            <img :src="item.product.image" class="media-object" alt="Alternative Text">
+                        </a>
+                    </div>
+                    <div class="minicart-content-details media-body">
+                        <h3><a href="#">{{ item.quantity > 1 ? `${item.quantity} x ` : '' }}{{ item.product.title }}</a></h3>
+                        <span class="minicart-content-price" >{{ item.quantity }} x {{ item.product.price }} EUR</span>               
+                        <span class="minicart-content-remove btn-remove" ><i class="fa fa-times"></i></span> 
+                    </div>
+                </li>
+              
+              </ul>
 
               <!-- Subtotal -->
               <div class="minicart-content-total">
-                <h3>Subtotal: 0</h3>
+                <h3>Subtotal: {{ cartStore.getTotalPrice() }} EUR</h3>
               </div>
 
               <!-- Checkout -->
               <div class="ws-shop-menu-checkout">
-                <div class="ws-shop-viewcart pull-left">
-                  <a href="/cart" class="btn btn-sm">View Cart</a>
-                </div>
-                <div class="ws-shop-checkout pull-right">
-                  <a href="/checkout" class="btn btn-sm">Checkout</a>
+                <div class="ws-shop-viewcart pull-right">
+                  <RouterLink to="/cart" class="btn btn-sm">View Cart</RouterLink>
                 </div>
               </div>
             </div>
