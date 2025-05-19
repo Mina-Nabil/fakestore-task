@@ -7,10 +7,7 @@ export interface Product {
   title: string
   price: number
   image: string
-  description: string
   category: string
-  created_at: string
-  updated_at: string
 }
 
 export const useProductsStore = defineStore('productsStore', () => {
@@ -21,7 +18,7 @@ export const useProductsStore = defineStore('productsStore', () => {
     loadingProducts.value = true
     const response = await useApi().get('/products')
     loadingProducts.value = false
-    products.value = response.data
+    products.value = response.data.data
   }
 
   return { products, fetchProducts, loadingProducts }

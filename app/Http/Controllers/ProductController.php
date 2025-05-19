@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\ProductManagementException;
 use App\Http\Requests\UpdateProductRequest;
+use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Services\ProductsService;
 use Exception;
@@ -21,7 +22,7 @@ class ProductController extends Controller
 
     public function index()
     {
-        return response()->json($this->productsService->getProducts());
+        return ProductResource::collection($this->productsService->getProducts());
     }
 
     public function update(UpdateProductRequest $request, Product $product)
@@ -35,6 +36,6 @@ class ProductController extends Controller
             report($e);
             return response()->json(['message' => 'Internal server error. Please try again later.'], 500);
         }
-        return response()->json($updatedProduct);
+        return new ProductResource($updatedProduct);
     }
 }
