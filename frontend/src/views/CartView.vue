@@ -5,7 +5,7 @@ import { useTitleStore } from '@/stores/titleStore'
 
 const titleStore = useTitleStore()
 
-titleStore.setTitle("Checkout")
+titleStore.setTitle("Cart")
 </script>
 
 <template>

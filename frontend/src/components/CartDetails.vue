@@ -1,87 +1,95 @@
+<script setup lang="ts">
+import { useCartStore } from '@/stores/cartStore'
+import { watch } from 'vue'
+
+const cartStore = useCartStore()
+watch(cartStore.cart, (newCart) => {
+  cartStore.saveCart()
+})
+</script>
+
 <template>
-  <div class="item">
-    <i>
-      <slot name="icon"></slot>
-    </i>
-    <div class="details">
-      <h3>
-        <slot name="heading"></slot>
-      </h3>
-      <slot></slot>
+  <div class="container ws-page-container">
+    <!-- Page Content -->
+    <div class="row">
+      <!-- Cart Content -->
+      <div class="ws-cart-page">
+        <div class="col-sm-8">
+          <div class="ws-mycart-content">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th class="cart-item-head">&nbsp;</th>
+                  <th class="cart-item-head">Item</th>
+                  <th class="cart-item-head">Price</th>
+                  <th class="cart-item-head">Quantity</th>
+                  <th class="cart-item-head">Total</th>
+                  <th class="cart-item-head">&nbsp;</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr v-for="item in cartStore.cart" class="cart-item">
+                  <td class="cart-item-cell cart-item-thumb">
+                    <img :src="item.product.image" class="img-responsive" alt="Alternative Text" />
+                  </td>
+                  <td class="cart-item-cell cart-item-title">
+                    <h3>{{ item.product.title }}</h3>
+                  </td>
+                  <td class="cart-item-cell cart-item-price">
+                    <span class="amount">{{ item.product.price }}</span>
+                  </td>
+                  <td class="cart-item-cell cart-item-quantity">
+                    <input type="number" v-model.number="item.quantity" />
+                  </td>
+                  <td class="cart-item-cell cart-item-subtotal">
+                    <span class="amount">{{ item.product.price * item.quantity }}</span>
+                  </td>
+                  <td
+                    class="cart-item-cell cart-item-remove"
+                    @click="cartStore.removeFromCart(item.product)"
+                  >
+                    <span><i class="far fa-times-circle"></i></span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Cart Total -->
+        <div class="col-sm-4">
+          <div class="ws-mycart-total">
+            <h2>Cart Totals</h2>
+            <table>
+              <tbody>
+                <tr class="cart-subtotal">
+                  <th>Subtotal</th>
+                  <td>
+                    <span class="amount">{{ cartStore.getTotalPrice() }} EUR</span>
+                  </td>
+                </tr>
+                <tr class="cart-subtotal">
+                  <th>Delivery</th>
+                  <td>
+                    <span class="amount">50.00 EUR</span>
+                  </td>
+                </tr>
+                <tr class="order-total">
+                  <th>Total</th>
+                  <td>
+                    <strong
+                      ><span class="amount">{{ cartStore.getTotalPrice() + 50 }} EUR</span></strong
+                    >
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <a class="btn ws-btn-fullwidth" href="#">Check Out</a>
+          </div>
+        </div>
+      </div>
     </div>
+    <!-- End Page Content -->
   </div>
 </template>
-
-<style scoped>
-.item {
-  margin-top: 2rem;
-  display: flex;
-  position: relative;
-}
-
-.details {
-  flex: 1;
-  margin-left: 1rem;
-}
-
-i {
-  display: flex;
-  place-items: center;
-  place-content: center;
-  width: 32px;
-  height: 32px;
-
-  color: var(--color-text);
-}
-
-h3 {
-  font-size: 1.2rem;
-  font-weight: 500;
-  margin-bottom: 0.4rem;
-  color: var(--color-heading);
-}
-
-@media (min-width: 1024px) {
-  .item {
-    margin-top: 0;
-    padding: 0.4rem 0 1rem calc(var(--section-gap) / 2);
-  }
-
-  i {
-    top: calc(50% - 25px);
-    left: -26px;
-    position: absolute;
-    border: 1px solid var(--color-border);
-    background: var(--color-background);
-    border-radius: 8px;
-    width: 50px;
-    height: 50px;
-  }
-
-  .item:before {
-    content: ' ';
-    border-left: 1px solid var(--color-border);
-    position: absolute;
-    left: 0;
-    bottom: calc(50% + 25px);
-    height: calc(50% - 25px);
-  }
-
-  .item:after {
-    content: ' ';
-    border-left: 1px solid var(--color-border);
-    position: absolute;
-    left: 0;
-    top: calc(50% + 25px);
-    height: calc(50% - 25px);
-  }
-
-  .item:first-of-type:before {
-    display: none;
-  }
-
-  .item:last-of-type:after {
-    display: none;
-  }
-}
-</style>

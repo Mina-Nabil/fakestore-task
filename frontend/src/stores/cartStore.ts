@@ -21,16 +21,6 @@ export const useCartStore = defineStore('cartStore', () => {
     }
   }
   
-  const setQuantity = (product: Product, quantity: number) => {
-    const item = cart.value.find(item => item.product.id === product.id)
-    if(item) {
-      item.quantity = quantity
-    } else {
-      cart.value.push({ product, quantity: quantity })
-    }
-    saveCart()
-  }
-
   const addToCart = (product: Product, quantity: number = 1) => {
     const item = cart.value.find(item => item.product.id === product.id)
     if(item) {
@@ -53,7 +43,7 @@ export const useCartStore = defineStore('cartStore', () => {
   }
 
   const getTotalPrice = () => {
-    return cart.value.reduce((total, item) => total + item.product.price * item.quantity, 0).toFixed(2)
+    return parseFloat(cart.value.reduce((total, item) => total + item.product.price * item.quantity, 0).toFixed(2))
   }
 
   const getTotalQuantity = () => {
@@ -62,10 +52,7 @@ export const useCartStore = defineStore('cartStore', () => {
   
   const saveCart = () => {
     localStorage.setItem('store-cart', JSON.stringify(cart.value))
-    console.log('Cart saved')
-    console.log(cart.value)
-    console.log(localStorage.getItem('store-cart'))
   }
 
-  return { cart, loadCart, setQuantity, addToCart, removeFromCart, clearCart, getTotalPrice, getTotalQuantity }
+  return { cart, loadCart, saveCart, addToCart, removeFromCart, clearCart, getTotalPrice, getTotalQuantity }
 })

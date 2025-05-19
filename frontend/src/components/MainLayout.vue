@@ -24,26 +24,31 @@ onMounted(() => {
       <ul class="ws-shop-menu">
         <!-- Cart -->
         <li class="ws-shop-cart">
-          <a href="/cart" class="btn btn-sm cart-count">Cart ({{ cartStore.getTotalQuantity() }})</a>
+          <a href="/cart" class="btn btn-sm cart-count"
+            >Cart ({{ cartStore.getTotalQuantity() }})</a
+          >
 
           <!-- Cart Popover -->
           <div class="ws-shop-minicart">
             <div class="minicart-content">
               <!-- Added Items -->
               <ul class="minicart-content-items clearfix">
-                <li v-for="item in cartStore.cart" class="media"  :key="item.product.id">
-                    <div class="media-left">
-                        <a href="#">
-                            <img :src="item.product.image" class="media-object" alt="Alternative Text">
-                        </a>
-                    </div>
-                    <div class="minicart-content-details media-body">
-                        <h3><a href="#">{{ item.quantity > 1 ? `${item.quantity} x ` : '' }}{{ item.product.title }}</a></h3>
-                        <span class="minicart-content-price" >{{ item.quantity }} x {{ item.product.price }} EUR</span>               
-                        <span class="minicart-content-remove btn-remove" ><i class="fa fa-times"></i></span> 
-                    </div>
+                <li v-for="item in cartStore.cart" class="media" :key="item.product.id">
+                  <div class="media-left">
+                      <img :src="item.product.image" class="media-object" alt="Alternative Text" />
+                  </div>
+                  <div class="minicart-content-details media-body">
+                    <h3>
+                        {{ item.quantity > 1 ? `${item.quantity} x ` : '' }}{{ item.product.title }}
+                    </h3>
+                    <span class="minicart-content-price"
+                      >{{ item.quantity }} x {{ item.product.price }} EUR</span
+                    >
+                    <span class="minicart-content-remove btn-remove"
+                      ><i class="fa fa-times"></i
+                    ></span>
+                  </div>
                 </li>
-              
               </ul>
 
               <!-- Subtotal -->
@@ -53,6 +58,9 @@ onMounted(() => {
 
               <!-- Checkout -->
               <div class="ws-shop-menu-checkout">
+                <div class="ws-shop-secondary pull-left">
+                  <button class="btn btn-sm" @click="cartStore.clearCart()">Clear Cart</button>
+                </div>
                 <div class="ws-shop-viewcart pull-right">
                   <RouterLink to="/cart" class="btn btn-sm">View Cart</RouterLink>
                 </div>
@@ -87,7 +95,11 @@ onMounted(() => {
 
         <!-- Logo -->
         <div class="ws-logo ws-center">
-          <img alt="Proxify Store" class="main-logo img-responsive" src="@/assets/images/logo.png" />
+          <img
+            alt="Proxify Store"
+            class="main-logo img-responsive"
+            src="@/assets/images/logo.png"
+          />
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -131,8 +143,7 @@ onMounted(() => {
     <div class="container">
       <!-- Copyright -->
 
-        <p>Handcrafted with love &copy; 2025 All rights reserved.</p>
-
+      <p>Handcrafted with love &copy; 2025 All rights reserved.</p>
 
       <!-- Payments -->
     </div>
