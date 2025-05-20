@@ -52,12 +52,6 @@ const productsCategoryFilter = (category: string) => {
 
     <!-- Categories Content -->
     <div class="tab-content">
-      <div
-        role="tabpanel"
-        :class="['tab-pane fade in', { active: selectedCategory === category }]"
-        v-for="category in ['all', ...categories]"
-        :key="category"
-      >
         <div class="row">
           <ProductCard
             v-for="product in filteredProducts"
@@ -65,7 +59,6 @@ const productsCategoryFilter = (category: string) => {
             class="col-sm-6 col-md-4 ws-works-item"
             :product="product"
           />
-        </div>
       </div>
     </div>
   </div>
