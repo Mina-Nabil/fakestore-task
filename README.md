@@ -66,7 +66,7 @@ frontend/
    php artisan key:generate
    ```
 
-5. Configure your database in the `.env` file:
+5. Configure your database in the `.env` file keep using 'sqlLite':
    ```
    DB_CONNECTION=mysql
    DB_HOST=127.0.0.1
@@ -86,7 +86,7 @@ frontend/
    php artisan serve
    ```
 
-The backend will be available at `http://localhost:8000`
+The backend API will be available at `http://localhost:8000`
 
 ## Frontend Setup
 
@@ -117,14 +117,14 @@ The frontend will be available at `http://localhost:5173`
 ### Add User
 To add a new user to the system:
 ```bash
-php artisan user:create {username} {password}
+php artisan app:create-user {username} {password}
 ```
 This command will create a user for products update API.
 
 ### Sync Products
 To synchronize products with the external Fake Store API:
 ```bash
-php artisan products:sync
+php artisan app:sync-products
 ```
 This command will fetch and update products from the external API.
 
