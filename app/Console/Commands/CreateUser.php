@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Exceptions\UserManagementException;
 use App\Models\User;
 use App\Services\UsersService;
 use Illuminate\Console\Command;
@@ -28,9 +29,13 @@ class CreateUser extends Command
      */
     public function handle()
     {
-        
+
         $usersService = new UsersService();
-        $user = $usersService->createUser($this->argument('username'), $this->argument('password'));
-        $this->info('User created successfully, username: ' . $user->username);
+        try {
+            $user = $usersService->createUser($this->argument('username'), $this->argument('password'));
+            $this->info('User created successfully, username: ' . $user->username);
+        } catch (UserManagementException $e) {
+            $this->error($e->getMessage());
+        }
     }
 }
