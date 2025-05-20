@@ -5,7 +5,7 @@ This project consists of a Laravel backend and a Vue.js frontend application tha
 ## Project Structure
 
 ```
-proxify-task/         # Laravel backend application root folder
+fakestore-task/         # Laravel backend application root folder
 ├── frontend/         # Vue.js frontend application
 ├── database/         # Database migrations and seeders
 ├── config/           # Configuration files
@@ -40,7 +40,7 @@ frontend/
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/Mina-Nabil/proxify-task.git
+   git clone https://github.com/Mina-Nabil/fakestore-task.git
    cd proxify-task
    ```
 
@@ -100,7 +100,12 @@ The backend will be available at `http://localhost:8000`
    npm install
    ```
 
-3. Start the development server:
+3. Copy Environment File:
+    ```bash
+    cp .env.example .env
+    ```
+
+4. Start the development server:
    ```bash
    npm run dev
    ```
