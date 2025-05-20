@@ -1,6 +1,6 @@
-# Proxify Task
+# Fake Store Web App Application
 
-This project consists of a Laravel backend and a Vue.js frontend application that products from the Fake Store Api.
+This project consists of a Laravel backend and a Vue.js frontend application that shows products from the Fake Store Api.
 
 ## Project Structure
 
@@ -13,6 +13,27 @@ proxify-task/         # Laravel backend application root folder
 ├── app/             # Backend application code
 ├── tests/           # Test files
 └── vendor/          # Composer dependencies
+```
+
+## Frontend Structure
+
+```
+frontend/
+├── src/                    # Source files
+│   ├── assets/            # Static assets (images, styles, etc.)
+│   ├── components/        # Reusable Vue components
+│   ├── helpers/           # Helper functions and utilities
+│   ├── router/            # Vue Router configuration
+│   ├── stores/            # Pinia store modules
+│   ├── views/             # Page components
+│   ├── App.vue           # Root Vue component
+│   └── main.ts           # Application entry point
+├── public/                # Public static files
+├── index.html            # HTML entry point
+├── package.json          # NPM package configuration
+├── tsconfig.json         # TypeScript configuration
+├── vite.config.ts        # Vite configuration
+└── README.md            # Frontend documentation
 ```
 
 ## Getting Started
