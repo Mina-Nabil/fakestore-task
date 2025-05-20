@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Product;
 use App\Models\User;
 use App\Services\ProductsService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -86,5 +87,48 @@ class UpdateProductsTest extends TestCase
         ]);
 
         $response->assertStatus(404);
+    }
+
+    public function test_sync_products_after_update(): void
+    {
+        //importing products
+        $productService = new ProductsService();
+        $productService->importProducts();
+
+        //saving old product values
+        $product = Product::first();
+        $oldTitle = $product->title;
+        $oldPrice = $product->price;
+        $oldDescription = $product->description;
+        $oldImage = $product->image;
+
+        //updating product 1
+        $productService->editProduct($product, [
+            'title' => 'Updated Title',
+            'price' => 100,
+            'description' => 'Updated Description',
+            'image' => 'https://example.com/updated-image.jpg',
+        ]);
+
+        //asserting that the product was updated
+        $this->assertDatabaseHas('products', [
+            'id' => $product->id,
+            'title' => 'Updated Title',
+            'price' => 100,
+            'description' => 'Updated Description',
+            'image' => 'https://example.com/updated-image.jpg',
+        ]);
+
+        //importing products again to test if the product is synced
+        $productService->importProducts();
+
+        //asserting that the product was synced
+        $this->assertDatabaseHas('products', [
+            'id' => $product->id,
+            'title' => $oldTitle,
+            'price' => $oldPrice,
+            'description' => $oldDescription,
+            'image' => $oldImage,
+        ]);
     }
 }

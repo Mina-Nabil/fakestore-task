@@ -39,7 +39,7 @@ class ProductsService
         $products = $response->json();
 
         foreach ($products as $product) {
-            Product::firstOrCreate([
+            Product::updateOrCreate([
                 'id' => $product['id'],
             ], [
                 'title' => $product['title'],
