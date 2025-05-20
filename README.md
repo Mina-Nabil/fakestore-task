@@ -41,14 +41,14 @@ frontend/
 1. Clone the repository:
    ```bash
    git clone https://github.com/Mina-Nabil/fakestore-task.git
-   cd proxify-task
+   cd fakestore-task
    ```
 
 ## Backend Setup
 
 1. Navigate to the project root directory:
    ```bash
-   cd proxify-task
+   cd fakestore-task
    ```
 
 2. Install PHP dependencies:
