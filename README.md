@@ -66,7 +66,7 @@ frontend/
    php artisan key:generate
    ```
 
-5. Configure your database in the `.env` file keep using 'sqlLite':
+5. Configure your database in the `.env` file OR keep using 'sqlite':
    ```
    DB_CONNECTION=mysql
    DB_HOST=127.0.0.1
