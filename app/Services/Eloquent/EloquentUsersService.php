@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Hash;
 use App\Exceptions\UserManagementException;
 use App\Services\AbstractServices\UsersService;
 use Exception;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Log;
 
 class EloquentUsersService extends UsersService
 {
@@ -23,6 +25,10 @@ class EloquentUsersService extends UsersService
    */
   public function login(string $username, string $password): string
   {
+    if (App::hasDebugModeEnabled()) {
+      Log::info('Logging in user: ' . $username);
+    }
+
     /** @var User $user */
     $user = $this->getUser($username);
 
@@ -45,6 +51,9 @@ class EloquentUsersService extends UsersService
    */
   public function getUser(string $username): ?User
   {
+    if (App::hasDebugModeEnabled()) {
+      Log::info('Getting user: ' . $username);
+    }
     return User::where('username', $username)->first();
   }
 
@@ -57,6 +66,11 @@ class EloquentUsersService extends UsersService
    */
   public function createUser(string $username, string $password): User
   {
+
+    if (App::hasDebugModeEnabled()) {
+      Log::info('Creating user: ' . $username);
+    }
+    
     if(User::where('username', $username)->exists()){
       throw new UserManagementException('User already exists', self::USER_CREATION_ERROR_CODE);
     }

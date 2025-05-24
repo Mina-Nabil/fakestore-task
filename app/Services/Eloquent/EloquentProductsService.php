@@ -75,6 +75,9 @@ class EloquentProductsService extends ProductsService
      */
     public function getProducts(): Collection
     {
+        if (App::hasDebugModeEnabled()) {
+            Log::info('Getting all products, count: ' . Product::count());
+        }
         return Product::all();
     }
 
@@ -87,6 +90,9 @@ class EloquentProductsService extends ProductsService
      */
     public function getProduct($id): ?Product
     {
+        if (App::hasDebugModeEnabled()) {
+            Log::info('Getting product: ' . $id);
+        }
         return Product::find($id);
     }
 
@@ -100,6 +106,10 @@ class EloquentProductsService extends ProductsService
      */
     public function editProduct(Product $product, array $data): Product
     {
+        if (App::hasDebugModeEnabled()) {
+            Log::info('Editing product: ' . $product->id);
+            Log::info('Data: ' . json_encode($data));
+        }
         foreach ($data as $key => $value) {
             if (!in_array($key, self::EDITABLE_FIELDS)) {
                 throw new ProductManagementException('Invalid field: ' . $key, 401);
@@ -122,6 +132,9 @@ class EloquentProductsService extends ProductsService
      */
     public function getProductCount(): int
     {
+        if (App::hasDebugModeEnabled()) {
+            Log::info('Getting product count, count: ' . Product::count());
+        }
         return Product::count();
     }
 }
