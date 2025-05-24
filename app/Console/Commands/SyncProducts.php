@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Exceptions\ApiCallException;
-use App\Services\ProductsService;
+use App\Services\AbstractServices\ProductsService;
 use Illuminate\Console\Command;
 
 class SyncProducts extends Command
@@ -25,9 +25,8 @@ class SyncProducts extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(ProductsService $productsService)
     {
-        $productsService = new ProductsService();
         $this->info('Syncing products from the FakeStoreAPI...');
         $oldCount = $productsService->getProductCount();
         try {

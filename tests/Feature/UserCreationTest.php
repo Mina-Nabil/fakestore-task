@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\User;
-use App\Services\UsersService;
+use App\Services\AbstractServices\UsersService;
 use Exception;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
@@ -13,10 +13,13 @@ class UserCreationTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected $usersService;
+
     public function setUp(): void
     {
         parent::setUp();
         $this->artisan('migrate');
+        $this->usersService = app(UsersService::class);
     }
 
     /**
@@ -29,8 +32,7 @@ class UserCreationTest extends TestCase
             'password' => 'testpassword',
         ]);
 
-        $userService = new UsersService();
-        $user = $userService->getUser('testuser');
+        $user = $this->usersService->getUser('testuser');
 
         $this->assertNotNull($user);
         $this->assertEquals('testuser', $user->username);

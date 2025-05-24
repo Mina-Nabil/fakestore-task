@@ -1,13 +1,14 @@
 <?php 
 
-namespace App\Services;
+namespace App\Services\Eloquent;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Exceptions\UserManagementException;
+use App\Services\AbstractServices\UsersService;
 use Exception;
 
-class UsersService
+class EloquentUsersService extends UsersService
 {
 
     const USER_NOT_FOUND_ERROR_CODE = 100;

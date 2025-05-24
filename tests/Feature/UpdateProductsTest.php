@@ -4,7 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Product;
 use App\Models\User;
-use App\Services\ProductsService;
+use App\Services\AbstractServices\ProductsService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -13,10 +13,13 @@ class UpdateProductsTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected $productsService;
+
     public function setUp(): void
     {
         parent::setUp();
         $this->artisan('migrate');
+        $this->productsService = app(ProductsService::class);
     }
 
     /**
@@ -24,8 +27,7 @@ class UpdateProductsTest extends TestCase
      */
     public function test_update_product(): void
     {
-        $productService = new ProductsService();
-        $productService->importProducts();
+        $this->productsService->importProducts();
 
         $response = $this->actingAs(User::factory()->create())->putJson('/api/products/1', [
             'title' => 'Updated Title',
@@ -47,8 +49,7 @@ class UpdateProductsTest extends TestCase
 
     public function test_update_product_with_uneditable_field(): void
     {
-        $productService = new ProductsService();
-        $productService->importProducts();
+        $this->productsService->importProducts();
 
         $response = $this->actingAs(User::factory()->create())->putJson('/api/products/1', [
             'title' => 'Updated Title',
@@ -63,8 +64,7 @@ class UpdateProductsTest extends TestCase
 
     public function test_update_product_with_invalid_field(): void
     {
-        $productService = new ProductsService();
-        $productService->importProducts();
+        $this->productsService->importProducts();
 
         $response = $this->actingAs(User::factory()->create())->putJson('/api/products/1', [
             'title' => 'Updated Title',
@@ -92,8 +92,7 @@ class UpdateProductsTest extends TestCase
     public function test_sync_products_after_update(): void
     {
         //importing products
-        $productService = new ProductsService();
-        $productService->importProducts();
+        $this->productsService->importProducts();
 
         //saving old product values
         $product = Product::first();
@@ -103,7 +102,7 @@ class UpdateProductsTest extends TestCase
         $oldImage = $product->image;
 
         //updating product 1
-        $productService->editProduct($product, [
+        $this->productsService->editProduct($product, [
             'title' => 'Updated Title',
             'price' => 100,
             'description' => 'Updated Description',
@@ -120,7 +119,7 @@ class UpdateProductsTest extends TestCase
         ]);
 
         //importing products again to test if the product is synced
-        $productService->importProducts();
+        $this->productsService->importProducts();
 
         //asserting that the product was synced
         $this->assertDatabaseHas('products', [

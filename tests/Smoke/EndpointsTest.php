@@ -4,6 +4,8 @@ namespace Tests\Smoke;
 
 use App\Models\Product;
 use App\Models\User;
+use App\Services\AbstractServices\ProductsService;
+use App\Services\AbstractServices\UsersService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -12,10 +14,15 @@ class EndpointsTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected $productsService;
+    protected $usersService;
+
     public function setUp(): void
     {
         parent::setUp();
         $this->artisan('migrate');
+        $this->productsService = app(ProductsService::class);
+        $this->usersService = app(UsersService::class);
     }
 
     /**

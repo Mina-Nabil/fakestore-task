@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\UserManagementException;
 use App\Http\Requests\LoginRequest;
-use App\Services\UsersService;
+use App\Services\AbstractServices\UsersService;
 use Exception;
 
 class UserController extends Controller

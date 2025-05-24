@@ -3,10 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Exceptions\UserManagementException;
-use App\Models\User;
-use App\Services\UsersService;
+use App\Services\AbstractServices\UsersService;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Hash;
 
 class CreateUser extends Command
 {
@@ -30,7 +28,7 @@ class CreateUser extends Command
     public function handle()
     {
 
-        $usersService = new UsersService();
+        $usersService = app(UsersService::class);
         try {
             $user = $usersService->createUser($this->argument('username'), $this->argument('password'));
             $this->info('User created successfully, username: ' . $user->username);

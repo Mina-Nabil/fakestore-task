@@ -1,19 +1,20 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Eloquent;
 
 use App\Exceptions\ApiCallException;
 use App\Exceptions\ProductManagementException;
 use App\Models\Product;
+use App\Services\AbstractServices\ProductsService;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class ProductsService
+class EloquentProductsService extends ProductsService
 {
 
-    const API_URL = 'https://fakestoreapi.com/products';
     const EDITABLE_FIELDS = ['title', 'price', 'description', 'image'];
 
     /**
@@ -24,30 +25,46 @@ class ProductsService
      */
     public function importProducts(): void
     {
-        Log::info('Importing products from the FakeStoreAPI...');
-        $response = Http::get(self::API_URL);
-        Log::info('Response: ' . $response->body());
-        
-        if ($response->failed()) {
-            $message = json_encode([
-                'status' => $response->status(),
-                'body' => $response->body(),
-            ]);
-            report(new Exception($message));
-            throw new ApiCallException('Failed to import products. Please try again later.');
-        }
-        $products = $response->json();
+        $productsCount = $this->getProductCount();
 
-        foreach ($products as $product) {
-            Product::updateOrCreate([
-                'id' => $product['id'],
-            ], [
-                'title' => $product['title'],
-                'price' => $product['price'],
-                'description' => $product['description'],
-                'category' => $product['category'],
-                'image' => $product['image'],
-            ]);
+        if ($productsCount == 0) {
+            if (App::hasDebugModeEnabled()) {
+                Log::info('No products found, fetching all products from the FakeStoreAPI...');
+            }
+            $products = $this->fetchAllProducts();
+        } else {
+            if (App::hasDebugModeEnabled()) {
+                Log::info('Products found, fetching updated products from the FakeStoreAPI...');
+            }
+            $updatedProducts = Product::isUpdated()->get()->pluck('id')->toArray();
+            foreach ($updatedProducts as $productId) {
+                $products[] = $this->fetchProduct($productId);
+            }
+        }
+
+        if (App::hasDebugModeEnabled()) {
+            Log::info('Products: ' . json_encode($products));
+        }
+
+        try {
+            DB::transaction(function () use ($products) {
+                foreach ($products as $product) {
+                    Product::updateOrCreate([
+                        'id' => $product['id'],
+                    ], [
+                        'title' => $product['title'],
+                        'price' => $product['price'],
+                        'description' => $product['description'],
+                        'category' => $product['category'],
+                        'image' => $product['image'],
+                        'is_updated' => false,
+                    ]);
+                }
+            });
+        } catch (Exception $e) {
+            DB::rollBack();
+            report($e);
+            throw new ProductManagementException('Failed to import products. Please try again later.');
         }
     }
 
@@ -60,7 +77,7 @@ class ProductsService
     {
         return Product::all();
     }
-    
+
 
     /**
      * Get a product by ID
@@ -89,6 +106,7 @@ class ProductsService
             }
         }
         try {
+            $data['is_updated'] = true;
             $product->update($data);
             return $product;
         } catch (Exception $e) {
